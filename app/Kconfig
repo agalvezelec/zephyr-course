@@ -1,0 +1,8 @@
+config BLINK_SLEEP_TIME_MS
+	int "LED prompt"
+	default 1000
+	range 100 5000
+	help 
+		Trying the TUI
+
+source "Kconfig.zephyr"
