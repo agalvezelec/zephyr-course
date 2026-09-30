@@ -84,3 +84,29 @@ Functionaly Kconfig works as expected, but the options are not shown exactly as 
 
 
 
+# Wed Sep 30 05:45:27 PM CEST 2026
+- Identify on-board LED's **node label** in `nucleo_f429zi.dts`: `green_led_1`
+- Create `app.overlay` and add alias `app-led`
+- Blink period is defined in `Kconfig`
+- Modify old `main.cpp`:
+
+ ```C
+// Careful with the dash symbol: the compiler uses underscores
+#define LED_NODE DT_ALIAS(app_led)
+...
+k_msleep(CONFIG_APP_HEARTBEAT_PERIOD_MS);
+```
+
+
+
+Check build and flash:
+
+```bash
+west build -p always -b nucleo_f439zi app
+west build -t menuconfig
+west flash -r openocd
+```
+
+
+
+
