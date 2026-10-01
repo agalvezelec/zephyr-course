@@ -108,5 +108,56 @@ west flash -r openocd
 ```
 
 
+# Thu Oct  1 05:15:19 PM CEST 2026
+
+Assignment 1:
+
+- Create a custom board using the "Copy/Rename" method
+- Build the hello world sample for said board
+- Place the board directory in <project_root>/boards/
+- Push and tag it as l5-task1
+
+Set `ZEPHYR_BASE=$HOME/Projects/zephyrproject/zephyr`
+
+- Copy and rename board files to root dir.
+
+Hello world. This works:
+
+```bash
+west build -p -b custom_nucleo $ZEPHYR_BASE/samples/hello_world -- -DBOARD_ROOT=$PWD
+```
+
+This also works:
+
+```bash
+export BOARD_ROOT=$PWD
+west build -p -b custom_nucleo $ZEPHYR_BASE/samples/hello_world
+```
+
+
+[x] CMake error: without enviroment defined,  _No board named 'custom_nucleo' found_
+
+
+
+
+
+
+app:
+
+```bash
+ west build -p always  app -b custom_nucleo
+```
+
+
+
+[x]  This also fails: `west build -b custom_nucleo --board-dir app/boards/`
+
+It probably fails because it reads the `BOARD_ROOT` from the `CMake.lists` of the sample
+
+The videotutorial creates `boards` inside `app`, not in the root folder. After moved, it compiles the app :
+
+
+
+
 
 
