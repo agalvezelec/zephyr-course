@@ -1,0 +1,6 @@
+board:
+  name: custom_nucleo
+  full_name: Custom_Nucleo F429ZI
+  vendor: st
+  socs:
+    - name: stm32f429xx
