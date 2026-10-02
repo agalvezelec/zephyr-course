@@ -1,0 +1,6 @@
+board: 
+  name: scratch_nucleo
+  full_name: Nucleo board from scratch
+  vendor: iomico
+  socs:
+    - name: stm32f429xx

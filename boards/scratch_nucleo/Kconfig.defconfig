@@ -1,0 +1,9 @@
+if BOARD_SCRATCH_NUCLEO
+
+
+config ETH_DRIVER
+	default y
+
+
+
+endif # BOARD_SCRATCH_NUCLEO
