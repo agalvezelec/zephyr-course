@@ -207,7 +207,7 @@ west build -p -b scratch_nucleo $ZEPHYR_BASE/samples/hello_world
 
 [x] Flash error:
 
-missing `board.cmake`
+Missing `board.cmake`
 
 ```bash
 -- west flash: rebuilding
@@ -215,3 +215,19 @@ ninja: no work to do.
 FATAL ERROR: no runners.yaml found in /home/gsa/Projects/zephyr-course/build/zephyr. Either board scratch_nucleo/stm32f429xx doesn't support west flash/debug/simulate, or a pristine build is needed.
 
 ```
+
+
+Missing `scratch_nucleo_defconfig` . Now minicom shows the message
+
+Confusion between purpose of:  `scratch_nucleo_defconfig`, `Kconfig.defconfig` and `Kconfig.scratch_nucleo`
+
+
+Check command for debug:   
+
+```bash
+grep -E 'CONFIG_(SERIAL|CONSOLE|UART_CONSOLE|PRINTK|SHELL)'     build/zephyr/.config
+```
+
+All is well set.
+
+
