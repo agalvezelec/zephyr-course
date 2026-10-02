@@ -17,7 +17,8 @@ Make sure to select appropriate OS and to perform all steps till
 
 
 
-# Thu Sep 24 05:47:40 PM CEST 2026
+# Module 02
+Thu Sep 24 05:47:40 PM CEST 2026
 - Activated venv convenient folder `~/Projects/zephyrproject/.venv`
 - Change directory to the root of this repo
 - Changed version to v4.4.2 in `west.yml`
@@ -32,7 +33,8 @@ west debug
 
 
 
-# Mon Sep 28 05:16:13 PM CEST 2026
+# Module 03
+Mon Sep 28 05:16:13 PM CEST 2026
 
 - `Kconfig`: `zephyr-course/app` is a TUI template for Kconfig system. Defines what will be shown in `west build -t menuconfig`
 
@@ -84,7 +86,9 @@ Functionaly Kconfig works as expected, but the options are not shown exactly as 
 
 
 
-# Wed Sep 30 05:45:27 PM CEST 2026
+# Module 04
+Wed Sep 30 05:45:27 PM CEST 2026
+
 - Identify on-board LED's **node label** in `nucleo_f429zi.dts`: `green_led_1`
 - Create `app.overlay` and add alias `app-led`
 - Blink period is defined in `Kconfig`
@@ -108,9 +112,10 @@ west flash -r openocd
 ```
 
 
-# Thu Oct  1 05:15:19 PM CEST 2026
+# Module 05 
+Thu Oct  1 05:15:19 PM CEST 2026
 
-Assignment 1:
+## Assignment 1:
 
 - Create a custom board using the "Copy/Rename" method
 - Build the hello world sample for said board
@@ -141,23 +146,72 @@ west build -p -b custom_nucleo $ZEPHYR_BASE/samples/hello_world
 
 
 
-
 app:
 
 ```bash
- west build -p always  app -b custom_nucleo
+west build -p -b custom_nucleo app/
 ```
 
 
-
-[x]  This also fails: `west build -b custom_nucleo --board-dir app/boards/`
-
-It probably fails because it reads the `BOARD_ROOT` from the `CMake.lists` of the sample
-
-The videotutorial creates `boards` inside `app`, not in the root folder. After moved, it compiles the app :
+For me it did not work the `--board-dir` flag. Instead I set `export BOARD_ROOT=$PWD` as environment variable
 
 
+Flash: 
+
+Add line to Cmake: `board_runner_args(openocd --cmd-pre-init "source [find board/st_nucleo_f4.cfg]")`
+
+
+```bash
+west flash -r openocd
+```
+
+Minicom shows message correctly
 
 
 
 
+
+
+## Assignment 2:
+Scratch method:
+
+- Kconfig files and yaml created from scratch
+- Devicetree is a cropped version of the original
+- `CMakeLists.txt` should include `board.c` for `printk()` function
+
+
+```bash
+boards/scratch_nucleo/
+├── board.c
+├── board.yml
+├── CMakeLists.txt
+├── Kconfig.defconfig
+├── Kconfig.scratch_nucleo
+└── scratch_nucleo.dts
+
+1 directory, 6 files
+```
+
+
+[x] CMake error  related to `scratch_nucleo.dts`:
+
+Clocks should be included as nodes
+
+
+Build:
+
+```bash
+west build -p -b scratch_nucleo $ZEPHYR_BASE/samples/hello_world
+```
+
+
+[x] Flash error:
+
+missing `board.cmake`
+
+```bash
+-- west flash: rebuilding
+ninja: no work to do.
+FATAL ERROR: no runners.yaml found in /home/gsa/Projects/zephyr-course/build/zephyr. Either board scratch_nucleo/stm32f429xx doesn't support west flash/debug/simulate, or a pristine build is needed.
+
+```
