@@ -1,7 +1,13 @@
 / {
 
-	aliases {
+	our_driver0: our_driver {
+		compatible = "our,driver";
+		status = "okay";
 
-		app-led = &green_led_1;
 	};
+
+	aliases {
+	app-led = &green_led_1;
+    };
+
 };
