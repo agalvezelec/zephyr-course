@@ -230,4 +230,32 @@ grep -E 'CONFIG_(SERIAL|CONSOLE|UART_CONSOLE|PRINTK|SHELL)'     build/zephyr/.co
 
 All is well set.
 
+# Module 06
+Wed Oct  7 05:50:13 PM CEST 2026
+
+This assigment uses the `sensor_driver_api` for an LED actuator, just for learning purposes.
+
+## Demo
+- `main.cpp` stays the same
+- New directory in `app/drivers/our_driver`: `CmakeLists.txt`, `our_driver.c`, `Kconfig`
+
+Debug compilation: 
+
+- Check if the driver is compiled: `our_driver.c` should appear in CMake commands (json)
+- Check the header file of the generated DTS: `our_driver` appears in a list
+
+
+Init message from driver in minicom:
+
+
+```bash
+minicom -D /dev/ttyACM0 -b 115200
+```
+
+## Assignment 1
+- I removed the `namespace` block in `main.cpp` to make it simpler
+- The GPIO initialization and low-level calls are done by the driver (not in `main.cpp`)
+- The `app.overlay` uses the same LED alias from previous assignments
+
+
 
