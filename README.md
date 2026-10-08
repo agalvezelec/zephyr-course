@@ -235,6 +235,30 @@ Wed Oct  7 05:50:13 PM CEST 2026
 
 This assigment uses the `sensor_driver_api` for an LED actuator, just for learning purposes.
 
+
+Only two data fields required by the API structure in `sensor.h`: [sensor_driver_api Struct Reference](https://docs.zephyrproject.org/latest/doxygen/html/structsensor__driver__api.html#details)
+
+- `sample_fetch`
+- `channel_get`
+
+To populate the device struct, the macro must be filled:
+
+```C
+#define DEVICE_DT_DEFINE	(		node_id,
+init_fn,
+pm,
+data,
+config,
+level,
+prio,
+api,
+... )
+```
+
+
+
+
+
 ## Demo
 - `main.cpp` stays the same
 - New directory in `app/drivers/our_driver`: `CmakeLists.txt`, `our_driver.c`, `Kconfig`
@@ -257,5 +281,7 @@ minicom -D /dev/ttyACM0 -b 115200
 - The GPIO initialization and low-level calls are done by the driver (not in `main.cpp`)
 - The `app.overlay` uses the same LED alias from previous assignments
 
+## Assignment 2
+A struct with a single field is defined and instantiated as `my_driver_data`. The pointer to this field will be also stored in the device struct, for dynamic data storage. The main function will populate this field.
 
 

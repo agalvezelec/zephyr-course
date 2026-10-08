@@ -15,6 +15,21 @@ LOG_MODULE_REGISTER(our_driver, LOG_LEVEL_INF);
 static const struct gpio_dt_spec led = GPIO_DT_SPEC_GET(LED_NODE, gpios);
 
 
+// Dynamic struct (only for the compiler)
+struct our_driver_data {
+    uint8_t blink_mode;
+};
+
+// Custom API
+// Args: device struct pointer, blink mode integer from main.cpp)
+void our_driver_custom_api_fn(struct device *dev, uint8_t new_mode){
+	struct our_driver_data *data = (struct our_driver_data *)dev->data;
+	data->blink_mode= new_mode;
+	LOG_INF("CUSTOM API: Blink mode modified. blink_mode: %d", new_mode);
+
+}
+
+
 // Fetch function: activate LED
 static int our_driver_sample_fetch(const struct device *dev, enum sensor_channel chan) {
     LOG_INF("sensor_sample_fetch called: LED ON");
@@ -51,9 +66,9 @@ static const struct sensor_driver_api our_driver_api_funcs = {
 };
 
 
+// Instance of dynamic data struct (RAM data)
+static struct our_driver_data my_driver_data;
 
 
 
-
-
-DEVICE_DT_INST_DEFINE(0, our_driver_init, NULL, NULL, NULL, POST_KERNEL, 80, &our_driver_api_funcs);
+DEVICE_DT_INST_DEFINE(0, our_driver_init, NULL, &my_driver_data, NULL, POST_KERNEL, 80, &our_driver_api_funcs);

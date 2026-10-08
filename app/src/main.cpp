@@ -2,6 +2,10 @@
 #include <zephyr/device.h>
 #include <zephyr/drivers/sensor.h>
 
+extern "C" {
+    void our_driver_custom_api_fn(const struct device *dev, uint8_t new_mode);
+}
+
 int main(void) {
     const struct device *my_sensor = DEVICE_DT_GET_ANY(our_driver);
 
@@ -9,7 +13,12 @@ int main(void) {
         return -1;
     }
 
+	uint8_t mode_counter = 0;
+
     while (1) {
+
+	our_driver_custom_api_fn(my_sensor, mode_counter++);
+
         /* Call fetch -> Driver will set LED ON */
         sensor_sample_fetch(my_sensor);
         k_msleep(1000);
