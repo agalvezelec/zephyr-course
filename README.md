@@ -284,4 +284,13 @@ minicom -D /dev/ttyACM0 -b 115200
 ## Assignment 2
 A struct with a single field is defined and instantiated as `my_driver_data`. The pointer to this field will be also stored in the device struct, for dynamic data storage. The main function will populate this field.
 
+```C
+// Custom API
+// Args: device struct pointer, blink mode integer from main.cpp)
+void our_driver_custom_api_fn(struct device *dev, uint8_t new_mode){
+	struct our_driver *data = (struct our_driver_data *)dev->data;
+	data->blink_mode= new_mode;
+	LOG_INF("CUSTOM API: Blink mode modified. blink_mode: %d", new_mode);
+}
+```
 
