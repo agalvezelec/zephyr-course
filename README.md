@@ -308,5 +308,10 @@ Sat Oct 10 05:31:44 PM CEST 2026
 const struct device *my_sensor = DEVICE_DT_GET_ANY(our_driver);
 ```
 
-- Write outside main() the shell functions 
+- Write outside main() the shell functions and macros
+
+
+# Assigment 2
+Added new command to interact with API function of the driver
+
 

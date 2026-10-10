@@ -2,6 +2,7 @@
 #include <zephyr/device.h>
 #include <zephyr/drivers/sensor.h>
 #include <zephyr/shell/shell.h>
+#include <stdlib.h> // 07.2. Needed for strtol()
 
 extern "C" {
     void our_driver_custom_api_fn(const struct device *dev, uint8_t new_mode);
@@ -32,17 +33,36 @@ static int cmd_sensor_info(const struct shell *sh, size_t argc, char **argv) {
     return 0;
 }
 
+// 07.2 Custom API subcommand
+static int cmd_sensor_set(const struct shell *sh, size_t argc, char **argv) {
+    
+    char *endptr;
+    long val = strtol(argv[1], &endptr, 10);
+
+    if (*endptr != '\0' || val < 0 || val > 255) {
+        shell_error(sh, "Error: (valid range: 0-255)."); /* */
+        return -EINVAL;
+    }
+
+// Call API
+    our_driver_custom_api_fn(my_sensor, (uint8_t)val);
+    shell_print(sh, "Set was executed: custom mode set to %d", (uint8_t)val);
+    
+    return 0;
+}
+
+
 //Subcomands array for root 'sensor'
 SHELL_STATIC_SUBCMD_SET_CREATE(sub_sensor_cmds,
     SHELL_CMD(fetch, NULL, "Calls sensor_sample_fetch()", cmd_sensor_fetch),
     SHELL_CMD(info, NULL, "Prints the device name and ready state", cmd_sensor_info),
     SHELL_CMD(read, NULL, "Calls sensor_channel_get() and prints result", cmd_sensor_read),
+    /* Usamos SHELL_CMD_ARG: 2 argumentos obligatorios (el comando 'set' + el valor) y 0 opcionales */
+    SHELL_CMD_ARG(set, NULL, "Set custom mode. Usage: sensor set <value>", cmd_sensor_set, 2, 0), /*[cite: 40] */
     SHELL_SUBCMD_SET_END
-); 
+);
 
-
-SHELL_CMD_REGISTER(sensor, &sub_sensor_cmds, "Sensor root shell command", NULL); 
-
+SHELL_CMD_REGISTER(sensor, &sub_sensor_cmds, "Sensor root shell command", NULL);
 
 
 
