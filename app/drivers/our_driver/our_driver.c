@@ -25,14 +25,14 @@ struct our_driver_data {
 void our_driver_custom_api_fn(struct device *dev, uint8_t new_mode){
 	struct our_driver_data *data = (struct our_driver_data *)dev->data;
 	data->blink_mode= new_mode;
-	LOG_INF("CUSTOM API: Blink mode modified. blink_mode: %d", new_mode);
+	//LOG_INF("CUSTOM API: Blink mode modified. blink_mode: %d", new_mode);
 
 }
 
 
 // Fetch function: activate LED
 static int our_driver_sample_fetch(const struct device *dev, enum sensor_channel chan) {
-    LOG_INF("sensor_sample_fetch called: LED ON");
+    //LOG_INF("sensor_sample_fetch called: LED ON");
     return gpio_pin_set_dt(&led, 1); //GPIO standard function
 }
 
@@ -41,7 +41,7 @@ static int our_driver_sample_fetch(const struct device *dev, enum sensor_channel
 static int our_driver_channel_get(const struct device *dev, 
                                   enum sensor_channel chan, 
                                   struct sensor_value *val) {
-    LOG_INF("sensor_channel_get called: LED off");
+    //LOG_INF("sensor_channel_get called: LED off");
     return gpio_pin_set_dt(&led, 0);
 }
 

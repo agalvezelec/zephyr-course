@@ -294,3 +294,19 @@ void our_driver_custom_api_fn(struct device *dev, uint8_t new_mode){
 }
 ```
 
+# Module 07
+Sat Oct 10 05:31:44 PM CEST 2026
+
+# Assigment 1
+
+- Most `LOG_INF()` calls from the driver are commented out
+- Add to `main.cpp`:
+
+```C
+#include <zephyr/shell/shell.h>
+...
+const struct device *my_sensor = DEVICE_DT_GET_ANY(our_driver);
+```
+
+- Write outside main() the shell functions 
+
