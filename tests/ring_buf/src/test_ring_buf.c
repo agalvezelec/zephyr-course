@@ -133,8 +133,11 @@ ZTEST(ring_buf_boundaries, test_pop_null_returns_einval)
 
 ZTEST(ring_buf_boundaries, test_is_full_after_fill)
 {
-	/* TODO(l8-task1): push 4 values -> rb_is_full() == true, rb_count() == 4.
-	 * See TEST_SPEC.md "Suite ring_buf_boundaries" #3.
-	 */
-	ztest_test_skip();
+	rb_push(10);
+	rb_push(20);
+	rb_push(30);
+	rb_push(40);
+	
+	zassert_true(rb_is_full(), "Buffer must report as full after 4 pushes");
+	zassert_equal(rb_count(), 4, "Buffer count must be 4");
 }
