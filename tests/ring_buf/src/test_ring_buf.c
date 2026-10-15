@@ -112,11 +112,18 @@ ZTEST_SUITE(ring_buf_boundaries, NULL, NULL, before, NULL, NULL);
 
 ZTEST(ring_buf_boundaries, test_peek_does_not_consume)
 {
-	/* TODO(l8-task1): rb_push(7); rb_peek(&v) -> v == 7; rb_peek(&v) again
-	 * -> v == 7; rb_count() still == 1.
-	 * See TEST_SPEC.md "Suite ring_buf_boundaries" #1.
-	 */
-	ztest_test_skip();
+	int v = 0;
+	
+	zassert_ok(rb_push(7), "Push failed");
+	
+	zassert_ok(rb_peek(&v), "First peek failed");
+	zassert_equal(v, 7, "First peeked value must be 7");
+	
+	v = 0; /* Reset v to ensure peek actually overwrites it */
+	zassert_ok(rb_peek(&v), "Second peek failed");
+	zassert_equal(v, 7, "Second peeked value must still be 7");
+	
+	zassert_equal(rb_count(), 1, "Buffer count must remain 1 after peeking");
 }
 
 ZTEST(ring_buf_boundaries, test_pop_null_returns_einval)
