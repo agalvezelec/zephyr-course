@@ -91,11 +91,14 @@ ZTEST(ring_buf_push_pop, test_fifo_order)
 
 ZTEST(ring_buf_push_pop, test_push_full_returns_enospc)
 {
-	/* TODO(l8-task1): Fill the buffer to its capacity of 4, then push
-	 * one more value -> -ENOSPC.
-	 * See TEST_SPEC.md "Suite ring_buf_push_pop" #3.
-	 */
-	ztest_test_skip();
+	/* Fill the buffer to its capacity of 4 */
+	zassert_ok(rb_push(1), "Push 1 failed");
+	zassert_ok(rb_push(2), "Push 2 failed");
+	zassert_ok(rb_push(3), "Push 3 failed");
+	zassert_ok(rb_push(4), "Push 4 failed");
+	
+	/* The 5th push should fail with -ENOSPC */
+	zassert_equal(rb_push(5), -ENOSPC, "Pushing to a full buffer must return -ENOSPC");
 }
 
 /*
