@@ -43,11 +43,13 @@ ZTEST(ring_buf_init, test_fresh_state)
 
 ZTEST(ring_buf_init, test_reinit_clears_state)
 {
-	/* TODO(l8-task1): Push a value, call rb_init(4) again, then
-	 * verify the buffer is empty and count is 0.
-	 * See TEST_SPEC.md "Suite ring_buf_init" #2.
-	 */
-	ztest_test_skip();
+	rb_push(42);
+	zassert_equal(rb_count(), 1, "Buffer should have 1 item");
+	
+	rb_init(4);
+	
+	zassert_true(rb_is_empty(), "Buffer must be empty after reinit");
+	zassert_equal(rb_count(), 0, "Count must be 0 after reinit");
 }
 
 /*
