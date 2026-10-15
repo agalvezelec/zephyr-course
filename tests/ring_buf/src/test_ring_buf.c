@@ -63,10 +63,12 @@ ZTEST_SUITE(ring_buf_push_pop, NULL, NULL, before, NULL, NULL);
 
 ZTEST(ring_buf_push_pop, test_single_push_pop)
 {
-	/* TODO(l8-task1): rb_push(42), rb_pop(&v) -> v == 42, buffer empty after.
-	 * See TEST_SPEC.md "Suite ring_buf_push_pop" #1.
-	 */
-	ztest_test_skip();
+	int v = 0;
+	
+	zassert_ok(rb_push(42), "Push should succeed");
+	zassert_ok(rb_pop(&v), "Pop should succeed");
+	zassert_equal(v, 42, "Popped value must match pushed value");
+	zassert_true(rb_is_empty(), "Buffer must be empty after single push/pop");
 }
 
 ZTEST(ring_buf_push_pop, test_fifo_order)
