@@ -314,4 +314,13 @@ const struct device *my_sensor = DEVICE_DT_GET_ANY(our_driver);
 # Assigment 2
 Added new command to interact with API function of the driver
 
+# Module 08
+Thu Oct 15 12:49:30 PM CEST 2026
+
+## Assignment 1
+Fill in 7 stub ZTEST bodies in `tests/ring_buf/src/test_ring_buf.c`
+
+```bash
+west twister -T tests/ring_buf -p native_sim
+```
 
