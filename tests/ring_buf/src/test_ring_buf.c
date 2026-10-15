@@ -128,10 +128,7 @@ ZTEST(ring_buf_boundaries, test_peek_does_not_consume)
 
 ZTEST(ring_buf_boundaries, test_pop_null_returns_einval)
 {
-	/* TODO(l8-task1): rb_pop(NULL) -> -EINVAL.
-	 * See TEST_SPEC.md "Suite ring_buf_boundaries" #2.
-	 */
-	ztest_test_skip();
+	zassert_equal(rb_pop(NULL), -EINVAL, "Passing NULL to rb_pop must return -EINVAL");
 }
 
 ZTEST(ring_buf_boundaries, test_is_full_after_fill)
