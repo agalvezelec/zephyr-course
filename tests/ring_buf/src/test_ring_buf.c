@@ -73,11 +73,20 @@ ZTEST(ring_buf_push_pop, test_single_push_pop)
 
 ZTEST(ring_buf_push_pop, test_fifo_order)
 {
-	/* TODO(l8-task1): rb_push(1), rb_push(2), rb_push(3); pop three times
-	 * and verify the values come out as 1, 2, 3 in that order.
-	 * See TEST_SPEC.md "Suite ring_buf_push_pop" #2.
-	 */
-	ztest_test_skip();
+	int v = 0;
+	
+	zassert_ok(rb_push(1), "Push 1 failed");
+	zassert_ok(rb_push(2), "Push 2 failed");
+	zassert_ok(rb_push(3), "Push 3 failed");
+	
+	zassert_ok(rb_pop(&v), "Pop 1 failed");
+	zassert_equal(v, 1, "First popped value must be 1");
+	
+	zassert_ok(rb_pop(&v), "Pop 2 failed");
+	zassert_equal(v, 2, "Second popped value must be 2");
+	
+	zassert_ok(rb_pop(&v), "Pop 3 failed");
+	zassert_equal(v, 3, "Third popped value must be 3");
 }
 
 ZTEST(ring_buf_push_pop, test_push_full_returns_enospc)
